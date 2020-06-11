@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="mainstyle.css">
+</head>
+
+<body>
+    <div id="launcher"></div>
+    <div id="gamePlace"></div>
+    <div id="outcome"></div>
+<script>
+
+var counter=0;
+var player1choice, player2choice, player1Name, player2Name;
+
+var gamePlace=document.getElementById("gamePlace");
+var whos=document.createElement("div");
+var outcome=document.getElementById("outcome");
+var reset=document.createElement("BUTTON");
+
+
+
+
+//game launcher form
+
+    var stPlayer=document.createElement("input");
+    stPlayer.type="text";
+    stPlayer.value="Jucator 1";
+    document.getElementById("launcher").appendChild(stPlayer);
+    
+    var ndPlayer=document.createElement("input");
+    ndPlayer.type="text";
+    ndPlayer.value="Jucator 2";
+    document.getElementById("launcher").appendChild(ndPlayer);
+    
+    var startGame=document.createElement("BUTTON");
+    startGame.innerHTML="Start the game";
+    document.getElementById("launcher").appendChild(startGame);
+    
+//starting the game
+
+    startGame.addEventListener('click',()=>{
+
+        //getting player name from form
+        player1Name=stPlayer.value;
+        player2Name=ndPlayer.value;
+
+        //hiding the form
+        document.getElementById("launcher").style.display="none";
+
+        //dinamicaly add the name who play first
+        var content=document.createTextNode("Randul lui "+player1Name);
+        whos.appendChild(content);
+        gamePlace.appendChild(whos);
+    
+
+        loadInterface();
+
+        clickedItem(player1Name,player2Name);
+        
+    });
+
+//load interface
+var loadInterface=()=>
+{
+
+    var rockBut=document.createElement("div");
+        rockBut.innerHTML="Piatra";
+        rockBut.value="rock";
+        rockBut.className="options"
+        rockBut.id="rock";
+    document.getElementById("gamePlace").appendChild(rockBut);
+
+    var paperBut=document.createElement("div");
+        paperBut.innerHTML="Hartie";
+        paperBut.value="paper";
+        paperBut.className="options"
+        paperBut.id="paper";
+    document.getElementById("gamePlace").appendChild(paperBut);
+
+    var scissorBut=document.createElement("div");
+        scissorBut.innerHTML="Foarfeca";
+        scissorBut.value="scissor";
+        scissorBut.className="options"
+        scissorBut.id="scissor";
+    document.getElementById("gamePlace").appendChild(scissorBut);
+
+}
+
+
+
+function clickedItem(player1Name,player2Name){
+
+document.querySelectorAll('.options').forEach(item => {
+    item.addEventListener('click', event => {
+    
+    if(counter>0){
+        player2choice = item.value; 
+
+        document.getElementById("gamePlace").style.display="none";
+        result(player1choice,player2choice,player1Name,player2Name);
+        
+
+    }
+    else{
+        ++counter;
+        player1choice = item.value;
+        whos.innerText="Randul lui "+player2Name;
+        
+
+        
+    }
+    
+});
+});
+
+
+}
+
+
+
+//result
+function result(player1choice,player2choice,player1Name,player2Name){
+
+if (player1choice===player2choice){
+    alert("remiza");
+}
+else if ((player1choice =="rock" && player2choice =="scissor") || (player1choice=="paper" && player2choice=="rock") || (player1choice=="scissor" && player2choice =="paper")){
+    alert(player1Name+" a castigat");
+    
+}
+else {
+    alert(player2Name+" a castigat");
+    
+}   
+
+reset.innerHTML="Joaca dinou";
+reset.addEventListener('click',()=>{
+    location.reload();
+});
+
+outcome.appendChild(reset);
+
+}
+
+
+</script>
+</body>
+
+
+</html>
